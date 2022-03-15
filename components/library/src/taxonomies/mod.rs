@@ -252,16 +252,9 @@ pub fn find_taxonomies(config: &Config, library: &Library) -> Result<Vec<Taxonom
 
     let taxonomies_def = {
         let mut m = HashMap::new();
-        // the default language taxonomies
-        for t in &config.taxonomies {
-            let slug = slugify_paths(&t.name, config.slugify.taxonomies);
-            let key = format!("{}-{}", slug, config.default_language);
-            slugs_to_lang.insert(key.clone(), config.default_language.as_str());
-            m.insert(key, t);
-        }
 
         // other languages taxonomies
-        for (code, options) in config.other_languages() {
+        for (code, options) in &config.languages {
             for t in &options.taxonomies {
                 let slug = slugify_paths(&t.name, config.slugify.taxonomies);
                 let key = format!("{}-{}", slug, code);
